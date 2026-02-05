@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RAG System - Retrieval Augmented Generation for PDF Documents by Adem">
+    <meta name="author" content="Adem">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>RAG System | Adem</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="rag.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <a href="../../index.html#projects" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Projects
+        </a>
+        
+        <div class="nav-pill">
+            <a href="../../cv.html">CV</a>
+            <span class="divider"></span>
+            <a href="../../contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg">
+            <canvas id="hero-canvas"></canvas>
+        </div>
+        
+        <div class="hero-content">
+            <span class="category-badge">Deep Learning & AI</span>
+            <h1 class="hero-title">RAG System</h1>
+            <p class="hero-subtitle">Retrieval Augmented Generation for PDF Documents</p>
+            <p class="hero-date">January 2025</p>
+            
+            <div class="hero-buttons">
+                <a href="https://github.com/adembtr/rag" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    View on GitHub
+                </a>
+                <a href="#demo" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                    Try Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section">
+        <h2 class="section-title reveal">What I Built</h2>
+        
+        <div class="overview-content">
+            <div class="overview-text reveal">
+                <p>
+                    A powerful <strong>RAG (Retrieval Augmented Generation)</strong> system that extracts knowledge from PDF documents and answers questions based on their content. Instead of relying solely on an LLM's training data, this system retrieves relevant context from your own documents.
+                </p>
+                <p>
+                    The system processes PDF files by intelligently chunking text at sentence boundaries, generates <strong>multilingual embeddings</strong> using state-of-the-art sentence transformers, stores them in a <strong>ChromaDB vector database</strong>, and retrieves the most relevant context to answer natural language queries.
+                </p>
+                <p>
+                    What makes this special? It supports <strong>50+ languages</strong> including Turkish and English, uses smart chunking that respects sentence boundaries for better context, and provides source attribution so you know exactly where each answer comes from.
+                </p>
+            </div>
+            
+            <div class="feature-cards reveal">
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <div>
+                        <h4>PDF Processing</h4>
+                        <p>Extract text from any PDF document</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <div>
+                        <h4>Smart Chunking</h4>
+                        <p>Sentence-boundary aware splitting</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <div>
+                        <h4>Multilingual</h4>
+                        <p>50+ languages supported</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div>
+                        <h4>Fast Search</h4>
+                        <p>Semantic similarity in milliseconds</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Diagram Section -->
+    <section class="architecture-section">
+        <div class="architecture-container">
+            <h2 class="section-title reveal">System Architecture</h2>
+            
+            <!-- Ingestion Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">Ingestion Pipeline</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">📄</div>
+                                <div class="step-title">PDF Files</div>
+                                <div class="step-tooltip">
+                                    <h5>Input Documents</h5>
+                                    <p>Load PDF files using PyMuPDF library. Handles encoding issues and extracts text from each page.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">📝</div>
+                                <div class="step-title">Extract Text</div>
+                                <div class="step-tooltip">
+                                    <h5>Text Extraction</h5>
+                                    <p>Extract raw text from each PDF page. Preserve paragraph structure and handle special characters.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">✂️</div>
+                                <div class="step-title">Smart Chunk</div>
+                                <div class="step-tooltip">
+                                    <h5>Intelligent Chunking</h5>
+                                    <p>Split text into 500-char chunks with 50-char overlap. Prefers sentence boundaries using regex patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">🔢</div>
+                                <div class="step-title">Embed</div>
+                                <div class="step-tooltip">
+                                    <h5>Generate Embeddings</h5>
+                                    <p>Convert chunks to 384-dimensional vectors using multilingual MiniLM model. Batch processing for efficiency.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">💾</div>
+                                <div class="step-title">Store DB</div>
+                                <div class="step-tooltip">
+                                    <h5>ChromaDB Storage</h5>
+                                    <p>Persist embeddings, text chunks, and metadata (source, page number) in vector database.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Query Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">Query Pipeline</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">❓</div>
+                                <div class="step-title">Question</div>
+                                <div class="step-tooltip">
+                                    <h5>User Query</h5>
+                                    <p>Natural language question from the user in any supported language.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">🔢</div>
+                                <div class="step-title">Embed</div>
+                                <div class="step-tooltip">
+                                    <h5>Query Embedding</h5>
+                                    <p>Convert question to same vector space as document chunks.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">🔍</div>
+                                <div class="step-title">Search</div>
+                                <div class="step-tooltip">
+                                    <h5>Similarity Search</h5>
+                                    <p>Find most similar chunks using cosine similarity in ChromaDB.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step-arrow">
+                            <div class="arrow-line"></div>
+                        </div>
+                        
+                        <div class="pipeline-step">
+                            <div class="step-box">
+                                <div class="step-icon">📊</div>
+                                <div class="step-title">Top-K Results</div>
+                                <div class="step-tooltip">
+                                    <h5>Retrieved Context</h5>
+                                    <p>Return top 5 most relevant chunks with source attribution and similarity scores.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chunking Demo Section -->
+    <section class="chunking-section" id="demo">
+        <div class="chunking-container">
+            <h2 class="section-title reveal">Smart Chunking Demo</h2>
+            <p class="reveal" style="color: var(--text-secondary); margin-bottom: 24px;">
+                See how the text chunking algorithm works. It respects sentence boundaries and maintains overlap for context preservation.
+            </p>
+            
+            <div class="chunking-demo reveal">
+                <div class="demo-input-area">
+                    <label for="demo-text">Input Text:</label>
+                    <textarea id="demo-text" placeholder="Enter your text here..."></textarea>
+                </div>
+                
+                <div class="demo-controls">
+                    <div class="control-group">
+                        <label for="chunk-size">Chunk Size:</label>
+                        <input type="number" id="chunk-size" value="100" min="50" max="500">
+                    </div>
+                    <div class="control-group">
+                        <label for="overlap-size">Overlap:</label>
+                        <input type="number" id="overlap-size" value="20" min="0" max="100">
+                    </div>
+                    <button id="chunk-btn" class="btn btn-primary">Chunk Text</button>
+                </div>
+                
+                <div class="demo-output" id="chunk-output">
+                    <!-- Chunks will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section class="code-section">
+        <div class="code-container">
+            <h2 class="section-title reveal">Code Highlights</h2>
+            
+            <div class="code-tabs reveal">
+                <button class="code-tab active" data-tab="code-chunking">Chunking Algorithm</button>
+                <button class="code-tab" data-tab="code-embedding">Embeddings</button>
+                <button class="code-tab" data-tab="code-search">Semantic Search</button>
+            </div>
+            
+            <!-- Chunking Code -->
+            <div class="code-block active" id="code-chunking">
+                <div class="code-header">
+                    <span class="code-filename">ingest.py</span>
+                    <button class="copy-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="keyword">def</span> <span class="function">chunk_text</span>(text: <span class="variable">str</span>, chunk_size: <span class="variable">int</span>, overlap: <span class="variable">int</span>) -> <span class="variable">list</span>[<span class="variable">str</span>]:
+    <span class="string">"""Split text into overlapping chunks, preferring sentence boundaries."""</span>
+    <span class="comment"># Sentence-ending patterns</span>
+    sentence_end_pattern = re.<span class="function">compile</span>(<span class="string">r"[.!?]\s+"</span>)
+    
+    chunks = []
+    start = <span class="number">0</span>
+    text_length = <span class="function">len</span>(text)
+    
+    <span class="keyword">while</span> start < text_length:
+        end = <span class="function">min</span>(start + chunk_size, text_length)
+        
+        <span class="comment"># Try to find a sentence boundary near the end</span>
+        <span class="keyword">if</span> end < text_length:
+            search_start = start + <span class="function">int</span>(chunk_size * <span class="number">0.8</span>)
+            search_region = text[search_start:end]
+            matches = <span class="function">list</span>(sentence_end_pattern.<span class="function">finditer</span>(search_region))
+            
+            <span class="keyword">if</span> matches:
+                <span class="comment"># Use the last sentence boundary found</span>
+                actual_end = search_start + matches[<span class="number">-1</span>].<span class="function">end</span>()
+                end = actual_end
+        
+        chunk = text[start:end].<span class="function">strip</span>()
+        <span class="keyword">if</span> chunk:
+            chunks.<span class="function">append</span>(chunk)
+        
+        start = end - overlap
+    
+    <span class="keyword">return</span> chunks</code></pre>
+                </div>
+            </div>
+            
+            <!-- Embedding Code -->
+            <div class="code-block" id="code-embedding">
+                <div class="code-header">
+                    <span class="code-filename">config.py & ingest.py</span>
+                    <button class="copy-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="comment"># config.py - Model Configuration</span>
+EMBEDDING_MODEL = <span class="string">"sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"</span>
+
+<span class="comment"># ingest.py - Generate Embeddings</span>
+<span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer
+
+<span class="comment"># Load the multilingual model</span>
+model = <span class="function">SentenceTransformer</span>(EMBEDDING_MODEL)
+
+<span class="comment"># Collect all chunks from all documents</span>
+all_chunks = []
+all_metadatas = []
+
+<span class="keyword">for</span> pdf_path <span class="keyword">in</span> pdf_files:
+    text = <span class="function">extract_text</span>(pdf_path)
+    chunks = <span class="function">chunk_text</span>(text, CHUNK_SIZE, CHUNK_OVERLAP)
+    
+    <span class="keyword">for</span> i, chunk <span class="keyword">in</span> <span class="function">enumerate</span>(chunks):
+        all_chunks.<span class="function">append</span>(chunk)
+        all_metadatas.<span class="function">append</span>({
+            <span class="string">"source"</span>: pdf_path.<span class="function">name</span>,
+            <span class="string">"chunk_index"</span>: i
+        })
+
+<span class="comment"># Generate embeddings in batch (efficient!)</span>
+all_embeddings = model.<span class="function">encode</span>(
+    all_chunks, 
+    show_progress_bar=<span class="keyword">True</span>
+).<span class="function">tolist</span>()</code></pre>
+                </div>
+            </div>
+            
+            <!-- Search Code -->
+            <div class="code-block" id="code-search">
+                <div class="code-header">
+                    <span class="code-filename">query.py</span>
+                    <button class="copy-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="code-content">
+                    <pre><code><span class="keyword">def</span> <span class="function">search</span>(query: <span class="variable">str</span>, model, collection, n_results: <span class="variable">int</span> = <span class="number">5</span>):
+    <span class="string">"""Search for relevant chunks using semantic similarity."""</span>
+    
+    <span class="comment"># Convert question to embedding vector</span>
+    query_embedding = model.<span class="function">encode</span>(query).<span class="function">tolist</span>()
+    
+    <span class="comment"># Find most similar chunks in ChromaDB</span>
+    results = collection.<span class="function">query</span>(
+        query_embeddings=[query_embedding],
+        n_results=n_results,
+        include=[<span class="string">"documents"</span>, <span class="string">"metadatas"</span>, <span class="string">"distances"</span>]
+    )
+    
+    <span class="keyword">return</span> results
+
+<span class="keyword">def</span> <span class="function">format_results</span>(results):
+    <span class="string">"""Format results for LLM context."""</span>
+    context_parts = []
+    
+    <span class="keyword">for</span> i, doc <span class="keyword">in</span> <span class="function">enumerate</span>(results[<span class="string">"documents"</span>][<span class="number">0</span>]):
+        metadata = results[<span class="string">"metadatas"</span>][<span class="number">0</span>][i]
+        distance = results[<span class="string">"distances"</span>][<span class="number">0</span>][i]
+        similarity = <span class="number">1</span> - distance  <span class="comment"># Convert distance to similarity</span>
+        
+        context_parts.<span class="function">append</span>(
+            <span class="string">f"[Source: {metadata['source']} | "</span>
+            <span class="string">f"Relevance: {similarity:.2%}]\n{doc}"</span>
+        )
+    
+    <span class="keyword">return</span> <span class="string">"\n\n"</span>.<span class="function">join</span>(context_parts)</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I Learned Section -->
+    <section class="learned-section">
+        <div class="learned-container">
+            <h2 class="section-title reveal">What I Learned</h2>
+            
+            <div class="learned-grid">
+                <div class="learned-card">
+                    <div class="learned-card-header">
+                        <span class="learned-check">✓</span>
+                        <h4>Text Chunking Strategies</h4>
+                    </div>
+                    <ul>
+                        <li>Sentence boundary detection with regex</li>
+                        <li>Overlap handling for context preservation</li>
+                        <li>Balancing chunk size vs semantic completeness</li>
+                    </ul>
+                </div>
+                
+                <div class="learned-card">
+                    <div class="learned-card-header">
+                        <span class="learned-check">✓</span>
+                        <h4>Vector Databases (ChromaDB)</h4>
+                    </div>
+                    <ul>
+                        <li>Persistent storage of embeddings</li>
+                        <li>Metadata management for source tracking</li>
+                        <li>Efficient similarity search operations</li>
+                    </ul>
+                </div>
+                
+                <div class="learned-card">
+                    <div class="learned-card-header">
+                        <span class="learned-check">✓</span>
+                        <h4>Sentence Transformers</h4>
+                    </div>
+                    <ul>
+                        <li>Multilingual embedding models</li>
+                        <li>Batch processing for efficiency</li>
+                        <li>384-dimensional vector representations</li>
+                    </ul>
+                </div>
+                
+                <div class="learned-card">
+                    <div class="learned-card-header">
+                        <span class="learned-check">✓</span>
+                        <h4>Semantic Search</h4>
+                    </div>
+                    <ul>
+                        <li>Cosine similarity calculations</li>
+                        <li>Top-K retrieval algorithms</li>
+                        <li>Distance to similarity conversion</li>
+                    </ul>
+                </div>
+                
+                <div class="learned-card">
+                    <div class="learned-card-header">
+                        <span class="learned-check">✓</span>
+                        <h4>PDF Processing</h4>
+                    </div>
+                    <ul>
+                        <li>PyMuPDF (fitz) library usage</li>
+                        <li>Page-by-page text extraction</li>
+                        <li>Encoding issue handling</li>
+                    </ul>
+                </div>
+                
+                <div class="learned-card">
+                    <div class="learned-card-header">
+                        <span class="learned-check">✓</span>
+                        <h4>RAG Architecture</h4>
+                    </div>
+                    <ul>
+                        <li>Ingestion vs Query pipeline design</li>
+                        <li>Context window optimization</li>
+                        <li>LLM-ready prompt formatting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="tech-section">
+        <div class="tech-container">
+            <h2 class="section-title reveal" style="justify-content: center;">Tech Stack</h2>
+            
+            <div class="tech-grid reveal">
+                <div class="tech-badge">
+                    <span class="tech-badge-icon">🐍</span>
+                    <span class="tech-badge-name">Python 3.10+</span>
+                    <span class="tech-badge-tooltip">Core programming language</span>
+                </div>
+                
+                <div class="tech-badge">
+                    <span class="tech-badge-icon">📄</span>
+                    <span class="tech-badge-name">PyMuPDF</span>
+                    <span class="tech-badge-tooltip">PDF text extraction library</span>
+                </div>
+                
+                <div class="tech-badge">
+                    <span class="tech-badge-icon">🤖</span>
+                    <span class="tech-badge-name">Sentence Transformers</span>
+                    <span class="tech-badge-tooltip">Multilingual embedding models</span>
+                </div>
+                
+                <div class="tech-badge">
+                    <span class="tech-badge-icon">💾</span>
+                    <span class="tech-badge-name">ChromaDB</span>
+                    <span class="tech-badge-tooltip">Vector database for semantic search</span>
+                </div>
+                
+                <div class="tech-badge">
+                    <span class="tech-badge-icon">🌍</span>
+                    <span class="tech-badge-name">Multilingual NLP</span>
+                    <span class="tech-badge-tooltip">50+ languages supported</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid reveal">
+                <div class="stat-card">
+                    <div class="stat-number" data-value="500">0</div>
+                    <div class="stat-label">Characters per chunk</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-value="50">0</div>
+                    <div class="stat-label">Character overlap</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-value="384">0</div>
+                    <div class="stat-label">Embedding dimensions</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-value="50" data-suffix="+">0</div>
+                    <div class="stat-label">Languages supported</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-value="5">0</div>
+                    <div class="stat-label">Top-K results</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Navigation -->
+    <footer class="project-footer">
+        <nav class="footer-nav">
+            <a href="../embedding-project.html" class="footer-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Previous Project
+            </a>
+            
+            <a href="../../index.html#projects" class="footer-nav-link footer-nav-center">
+                Back to All Projects
+            </a>
+            
+            <a href="../whisperai.html" class="footer-nav-link">
+                Next Project
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </nav>
+    </footer>
+
+    <script src="rag.js"></script>
+</body>
+</html>
