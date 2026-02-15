@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TEKNOFEST 2026 - 5G & AI Smart Road Safety: Real-time traffic analysis with CAMARA APIs, vehicle detection, license plate OCR, speed estimation, and driver behavior analysis">
+    <meta name="author" content="Adem">
+    <meta name="theme-color" content="#e3f2fd">
+    <title>5G & AI Smart Road Safety | Adem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="5g.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <a href="../../index.html#projects" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Projects
+        </a>
+        <div class="nav-pill">
+            <a href="../../cv.html">CV</a>
+            <span class="divider"></span>
+            <a href="../../contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg"><canvas id="hero-canvas"></canvas></div>
+        <div class="hero-content">
+            <span class="category-badge">TEKNOFEST 2026</span>
+            <h1 class="hero-title">5G & AI Road Safety</h1>
+            <p class="hero-subtitle">Smart Traffic Analysis with Turkcell 5G CAMARA APIs & Deep Learning</p>
+            <p class="hero-date">February 2026 — Ongoing</p>
+            <div class="hero-buttons">
+                <a href="https://www.teknofest.org/tr/yarismalar/5g-yapay-zeka-ile-akilli-yol-guvenligi-yarismasi/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Competition Page
+                </a>
+                <a href="#architecture" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    See Architecture
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section">
+        <h2 class="section-title reveal">What I'm Building</h2>
+        <div class="overview-content">
+            <div class="overview-text reveal">
+                <p>A full-stack <strong>5G-connected smart traffic analysis system</strong> for the TEKNOFEST 2026 competition organized by Turkcell in partnership with TOGG. The system analyzes live roadside camera feeds using AI and dynamically leverages <strong>5G network programmable APIs</strong> to optimize analysis quality in real-time.</p>
+                <p>The system detects vehicles, reads <strong>license plates via OCR</strong>, estimates <strong>vehicle speed</strong> using homography-based pixel-to-meter calibration, and analyzes <strong>driver behavior</strong> (phone usage, fatigue, seatbelt violations) from the exterior camera through windshield analysis. When a <strong>TOGG vehicle</strong> is detected, the system requests higher network bandwidth via the 5G Quality on Demand API.</p>
+                <p>The architecture splits workload: a <strong>mobile app</strong> (Flutter) handles 5G API calls (Number Verification for passwordless auth, QoD for dynamic bandwidth) and displays results, while a <strong>PC backend</strong> connected via USB tethering runs all heavy AI inference on GPU. Results flow to the phone in real-time via WebSocket.</p>
+            </div>
+            <div class="feature-cards reveal">
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <div><h4>Vehicle Detection + TOGG</h4><p>YOLOv8x with TOGG classifier</p></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔤</div>
+                    <div><h4>License Plate OCR</h4><p>YOLO crop → EasyOCR + temporal voting</p></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div><h4>Speed Estimation</h4><p>DeepSORT + homography calibration</p></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📶</div>
+                    <div><h4>5G CAMARA APIs</h4><p>Number Verify + Quality on Demand</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture-section" id="architecture">
+        <div class="architecture-container">
+            <h2 class="section-title reveal">System Architecture</h2>
+
+            <!-- Main Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">End-to-End System Flow</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📷</div><div class="step-title">Roadside Cam</div><div class="step-tooltip"><h5>Video Source</h5><p>Roadside camera captures live traffic video. Streamed over 5G network to the mobile device.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📱</div><div class="step-title">5G Phone</div><div class="step-tooltip"><h5>Mobile App (Flutter)</h5><p>Number Verification for auth. QoD API triggers. Displays results. USB Tethering shares 5G to PC.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box highlight-box"><div class="step-icon">💻</div><div class="step-title">PC (AI Engine)</div><div class="step-tooltip"><h5>GPU + CPU Processing</h5><p>Receives video via USB Tethering. Runs YOLOv8x (GPU), OCR, tracking, speed calc, driver analysis (CPU). ~22 FPS parallel.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📊</div><div class="step-title">WebSocket</div><div class="step-tooltip"><h5>Real-time Results</h5><p>PC streams detection results back to phone via WebSocket. Sub-millisecond latency over USB.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📲</div><div class="step-title">Dashboard</div><div class="step-tooltip"><h5>Mobile UI</h5><p>Live vehicle list, plates, speeds, risk alerts, QoD status indicator. Vehicle archive for review.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">AI Processing Pipeline (PC — GPU + CPU Parallel)</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🎯</div><div class="step-title">YOLOv8x</div><div class="step-tooltip"><h5>Object Detection (GPU ~40ms)</h5><p>Detects vehicles, license plates, people. Outputs bounding boxes. Also crops windshield region for driver analysis.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🔤</div><div class="step-title">Plate OCR</div><div class="step-tooltip"><h5>License Plate Reading (CPU ~25ms)</h5><p>Crop plate bbox → CLAHE enhancement → EasyOCR. Temporal voting across 30 frames for accuracy. Turkish format regex validation.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📏</div><div class="step-title">Speed Calc</div><div class="step-tooltip"><h5>Speed Estimation (CPU ~1ms)</h5><p>DeepSORT tracks vehicle across frames. Homography matrix converts pixel displacement to meters. Kalman filter smooths.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">😴</div><div class="step-title">Driver AI</div><div class="step-tooltip"><h5>Behavior Analysis (CPU ~15ms)</h5><p>MediaPipe 468 face landmarks → EAR (Eye Aspect Ratio) for fatigue. YOLO fine-tune for phone/cigarette in hand.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🚙</div><div class="step-title">TOGG Check</div><div class="step-tooltip"><h5>TOGG Classification (CPU ~5ms)</h5><p>Fine-tuned classifier identifies TOGG vehicles. Triggers QoD Level 2 (high quality) via phone API call.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5G API Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">5G CAMARA API Integration (40% of Competition Score)</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🔐</div><div class="step-title">Number Verify</div><div class="step-tooltip"><h5>Passwordless Authentication</h5><p>CAMARA Number Verification API. SIM-based identity check — no OTP, no password. User opens app → verified instantly.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📶</div><div class="step-title">QoD Level 0</div><div class="step-tooltip"><h5>Best Effort (Default)</h5><p>Normal mode. Low bandwidth, 480p quality. Basic vehicle detection only. Network resource efficient.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📶</div><div class="step-title">QoD Level 1</div><div class="step-tooltip"><h5>Medium Quality</h5><p>Vehicle approaching → request medium bandwidth. Plate reading begins. 720p quality.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box highlight-box"><div class="step-icon">📶</div><div class="step-title">QoD Level 2</div><div class="step-tooltip"><h5>High Quality (TOGG detected)</h5><p>TOGG or risky driver detected → maximum bandwidth. 1080p+. Full analysis: plate + speed + driver + in-vehicle objects.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section class="code-section">
+        <div class="code-container">
+            <h2 class="section-title reveal">Code Highlights</h2>
+            <div class="code-tabs reveal">
+                <button class="code-tab active" data-tab="code-detect">Detection + OCR</button>
+                <button class="code-tab" data-tab="code-speed">Speed Estimation</button>
+                <button class="code-tab" data-tab="code-driver">Driver Analysis</button>
+                <button class="code-tab" data-tab="code-qod">5G QoD API</button>
+            </div>
+
+            <div class="code-block active" id="code-detect">
+                <div class="code-header"><span class="code-filename">detection.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">from</span> ultralytics <span class="keyword">import</span> YOLO
+<span class="keyword">import</span> easyocr
+<span class="keyword">from</span> collections <span class="keyword">import</span> Counter
+
+model = YOLO(<span class="string">"weights/traffic_yolov8x.pt"</span>)
+reader = easyocr.<span class="function">Reader</span>([<span class="string">"tr"</span>])
+
+<span class="comment"># Temporal voting buffer per tracked vehicle</span>
+plate_buffer = {}  <span class="comment"># {track_id: [readings...]}</span>
+
+<span class="keyword">def</span> <span class="function">detect_and_read</span>(frame, track_id):
+    <span class="string">"""Detect vehicles + OCR plates with temporal voting."""</span>
+    results = model(frame, device=<span class="string">"cuda:0"</span>, half=<span class="keyword">True</span>)
+
+    <span class="keyword">for</span> det <span class="keyword">in</span> results[<span class="number">0</span>].boxes:
+        <span class="keyword">if</span> det.cls == <span class="number">1</span>:  <span class="comment"># License plate class</span>
+            x1, y1, x2, y2 = det.xyxy[<span class="number">0</span>]
+            crop = frame[y1:y2, x1:x2]
+
+            <span class="comment"># Enhancement: CLAHE + threshold</span>
+            enhanced = <span class="function">enhance_plate</span>(crop)
+
+            <span class="comment"># OCR reading</span>
+            text = reader.<span class="function">readtext</span>(enhanced, detail=<span class="number">0</span>)
+            <span class="keyword">if</span> text <span class="keyword">and</span> <span class="function">validate_turkish_plate</span>(text[<span class="number">0</span>]):
+                plate_buffer[track_id].<span class="function">append</span>(text[<span class="number">0</span>])
+
+    <span class="comment"># Majority vote after 30 frames</span>
+    <span class="keyword">if</span> <span class="function">len</span>(plate_buffer[track_id]) >= <span class="number">30</span>:
+        counter = Counter(plate_buffer[track_id])
+        <span class="keyword">return</span> counter.<span class="function">most_common</span>(<span class="number">1</span>)[<span class="number">0</span>][<span class="number">0</span>]</code></pre></div>
+            </div>
+
+            <div class="code-block" id="code-speed">
+                <div class="code-header"><span class="code-filename">speed_estimation.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">import</span> cv2
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># Homography: perspective → bird's eye view</span>
+<span class="comment"># 4 road reference points (calibrated at setup)</span>
+src_pts = np.<span class="function">float32</span>([[p1], [p2], [p3], [p4]])
+dst_pts = np.<span class="function">float32</span>([[q1], [q2], [q3], [q4]])
+H = cv2.<span class="function">getPerspectiveTransform</span>(src_pts, dst_pts)
+
+<span class="comment"># pixels_per_meter from calibration</span>
+PPM = <span class="number">100.0</span>  <span class="comment"># 100 pixels = 1 meter in bird's eye</span>
+
+<span class="keyword">def</span> <span class="function">estimate_speed</span>(pos_prev, pos_curr, fps=<span class="number">30</span>):
+    <span class="string">"""Convert pixel displacement to km/h."""</span>
+
+    <span class="comment"># Transform to bird's eye coordinates</span>
+    p1_bev = cv2.<span class="function">perspectiveTransform</span>(
+        pos_prev.<span class="function">reshape</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>), H)[<span class="number">0</span>][<span class="number">0</span>]
+    p2_bev = cv2.<span class="function">perspectiveTransform</span>(
+        pos_curr.<span class="function">reshape</span>(<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>), H)[<span class="number">0</span>][<span class="number">0</span>]
+
+    <span class="comment"># Pixel distance → meters</span>
+    dist_px = np.<span class="function">linalg.norm</span>(p2_bev - p1_bev)
+    dist_m = dist_px / PPM
+
+    <span class="comment"># Time between frames</span>
+    dt = <span class="number">1.0</span> / fps
+
+    <span class="comment"># Speed in km/h</span>
+    speed_ms = dist_m / dt
+    speed_kmh = speed_ms * <span class="number">3.6</span>
+    <span class="keyword">return</span> speed_kmh</code></pre></div>
+            </div>
+
+            <div class="code-block" id="code-driver">
+                <div class="code-header"><span class="code-filename">driver_analysis.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">import</span> mediapipe <span class="keyword">as</span> mp
+
+mp_face = mp.solutions.face_mesh
+face_mesh = mp_face.<span class="function">FaceMesh</span>(
+    max_num_faces=<span class="number">1</span>,
+    min_detection_confidence=<span class="number">0.5</span>
+)
+
+<span class="comment"># Eye landmarks for EAR calculation</span>
+LEFT_EYE = [<span class="number">362</span>, <span class="number">385</span>, <span class="number">387</span>, <span class="number">263</span>, <span class="number">373</span>, <span class="number">380</span>]
+RIGHT_EYE = [<span class="number">33</span>, <span class="number">160</span>, <span class="number">158</span>, <span class="number">133</span>, <span class="number">153</span>, <span class="number">144</span>]
+
+<span class="keyword">def</span> <span class="function">eye_aspect_ratio</span>(landmarks, eye_indices):
+    <span class="string">"""EAR = (|p2-p6| + |p3-p5|) / (2 * |p1-p4|)"""</span>
+    pts = [landmarks[i] <span class="keyword">for</span> i <span class="keyword">in</span> eye_indices]
+    vertical_1 = <span class="function">dist</span>(pts[<span class="number">1</span>], pts[<span class="number">5</span>])
+    vertical_2 = <span class="function">dist</span>(pts[<span class="number">2</span>], pts[<span class="number">4</span>])
+    horizontal = <span class="function">dist</span>(pts[<span class="number">0</span>], pts[<span class="number">3</span>])
+    <span class="keyword">return</span> (vertical_1 + vertical_2) / (<span class="number">2.0</span> * horizontal)
+
+<span class="keyword">def</span> <span class="function">detect_fatigue</span>(windshield_crop):
+    <span class="string">"""PERCLOS: % of time eyes are closed."""</span>
+    results = face_mesh.<span class="function">process</span>(windshield_crop)
+    <span class="keyword">if not</span> results.multi_face_landmarks:
+        <span class="keyword">return</span> <span class="keyword">None</span>
+
+    lm = results.multi_face_landmarks[<span class="number">0</span>].landmark
+    ear_left = <span class="function">eye_aspect_ratio</span>(lm, LEFT_EYE)
+    ear_right = <span class="function">eye_aspect_ratio</span>(lm, RIGHT_EYE)
+    ear_avg = (ear_left + ear_right) / <span class="number">2.0</span>
+
+    <span class="comment"># EAR < 0.2 for extended time → drowsy</span>
+    <span class="keyword">return</span> {<span class="string">"ear"</span>: ear_avg, <span class="string">"drowsy"</span>: ear_avg < <span class="number">0.2</span>}</code></pre></div>
+            </div>
+
+            <div class="code-block" id="code-qod">
+                <div class="code-header"><span class="code-filename">qod_manager.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">import</span> requests
+
+<span class="comment"># 5G CAMARA Quality on Demand API</span>
+QOD_ENDPOINT = <span class="string">"https://api.5g-camara.turkcell.com/qod/v0"</span>
+
+<span class="keyword">class</span> <span class="function">QoDManager</span>:
+    LEVELS = {
+        <span class="number">0</span>: <span class="string">"QOS_E"</span>,     <span class="comment"># Best effort (480p)</span>
+        <span class="number">1</span>: <span class="string">"QOS_S"</span>,     <span class="comment"># Medium (720p)</span>
+        <span class="number">2</span>: <span class="string">"QOS_L"</span>,     <span class="comment"># High priority (1080p+)</span>
+    }
+
+    <span class="keyword">def</span> <span class="function">set_level</span>(self, level, phone_ip, duration=<span class="number">60</span>):
+        <span class="string">"""Request QoD from 5G network."""</span>
+        payload = {
+            <span class="string">"ueId"</span>: {<span class="string">"ipv4Addr"</span>: phone_ip},
+            <span class="string">"qos"</span>: self.LEVELS[level],
+            <span class="string">"duration"</span>: duration
+        }
+        resp = requests.<span class="function">post</span>(
+            <span class="string">f"{QOD_ENDPOINT}/sessions"</span>,
+            json=payload, headers=self.headers
+        )
+        <span class="keyword">return</span> resp.json()
+
+<span class="comment"># Trigger logic</span>
+<span class="keyword">def</span> <span class="function">decide_qod</span>(detections, qod):
+    <span class="keyword">if</span> <span class="function">has_togg</span>(detections):
+        qod.<span class="function">set_level</span>(<span class="number">2</span>)   <span class="comment"># Full quality</span>
+    <span class="keyword">elif</span> <span class="function">has_risky_driver</span>(detections):
+        qod.<span class="function">set_level</span>(<span class="number">2</span>)   <span class="comment"># Emergency detail</span>
+    <span class="keyword">elif</span> <span class="function">vehicle_approaching</span>(detections):
+        qod.<span class="function">set_level</span>(<span class="number">1</span>)   <span class="comment"># Start plate reading</span>
+    <span class="keyword">else</span>:
+        qod.<span class="function">set_level</span>(<span class="number">0</span>)   <span class="comment"># Conserve resources</span></code></pre></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I Learned -->
+    <section class="learned-section">
+        <div class="learned-container">
+            <h2 class="section-title reveal">What I'm Learning</h2>
+            <div class="learned-grid">
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>YOLOv8x Object Detection</h4></div><ul><li>Multi-class vehicle + plate + person detection</li><li>FP16 inference for real-time GPU processing</li><li>TOGG vehicle fine-tuned classification</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>OCR & Plate Reading</h4></div><ul><li>EasyOCR with Turkish character support</li><li>Temporal voting across 30+ frames for accuracy</li><li>Turkish plate format regex validation</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Speed Estimation</h4></div><ul><li>Homography matrix for bird's-eye transformation</li><li>DeepSORT multi-object tracking with Kalman filter</li><li>Pixel-to-meter calibration strategies</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Driver Behavior AI</h4></div><ul><li>MediaPipe 468 face landmarks for fatigue (PERCLOS)</li><li>Eye Aspect Ratio (EAR) calculation</li><li>Through-windshield detection challenges</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>5G CAMARA APIs</h4></div><ul><li>Number Verification — SIM-based passwordless auth</li><li>Quality on Demand — dynamic bandwidth allocation</li><li>3-level tiered triggering strategy for efficiency</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Mobile + Backend Architecture</h4></div><ul><li>Flutter mobile app with WebSocket client</li><li>FastAPI backend on PC for AI processing</li><li>USB Tethering for 5G connectivity sharing</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="tech-section">
+        <div class="tech-container">
+            <h2 class="section-title reveal" style="justify-content: center;">Tech Stack</h2>
+            <div class="tech-grid reveal">
+                <div class="tech-badge"><span class="tech-badge-icon">🐍</span><span class="tech-badge-name">Python</span><span class="tech-badge-tooltip">Backend AI engine</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🎯</span><span class="tech-badge-name">YOLOv8x</span><span class="tech-badge-tooltip">Vehicle + plate detection</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">👁️</span><span class="tech-badge-name">OpenCV</span><span class="tech-badge-tooltip">Image processing & homography</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🔤</span><span class="tech-badge-name">EasyOCR</span><span class="tech-badge-tooltip">License plate text recognition</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🏃</span><span class="tech-badge-name">DeepSORT</span><span class="tech-badge-tooltip">Multi-object tracking</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">😊</span><span class="tech-badge-name">MediaPipe</span><span class="tech-badge-tooltip">Face landmarks & fatigue</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🚀</span><span class="tech-badge-name">FastAPI</span><span class="tech-badge-tooltip">Backend REST + WebSocket</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">📱</span><span class="tech-badge-name">Flutter</span><span class="tech-badge-tooltip">Mobile app + 5G API calls</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">📶</span><span class="tech-badge-name">5G CAMARA</span><span class="tech-badge-tooltip">Number Verify + QoD APIs</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid reveal">
+                <div class="stat-card"><div class="stat-number" data-value="7">0</div><div class="stat-label">AI Modules</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="22">0</div><div class="stat-label">FPS (Parallel)</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="3">0</div><div class="stat-label">QoD Levels</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="30">0</div><div class="stat-label">Frames for Vote</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="450" data-suffix="K">0</div><div class="stat-label">₺ Total Prize Pool</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="project-footer">
+        <nav class="footer-nav">
+            <a href="../DRONE/drone.html" class="footer-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>← Drone AI</a>
+            <a href="../../index.html#projects" class="footer-nav-link footer-nav-center">Back to All Projects</a>
+        </nav>
+    </footer>
+
+    <script src="5g.js"></script>
+</body>
+</html>

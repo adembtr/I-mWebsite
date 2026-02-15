@@ -8,17 +8,17 @@
 
 /* ----- CSS Variables ----- */
 :root {
-    /* Colors */
-    --bg-primary: #0a0a0a;
-    --bg-card: #1a1a1a;
-    --bg-card-alt: #111111;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --accent: #64B5F6;
-    --accent-hover: #90CAF9;
-    --accent-glow: rgba(100, 181, 246, 0.3);
-    --border: #333333;
-    --border-light: rgba(255, 255, 255, 0.1);
+    /* Colors - Sky Blue Theme */
+    --bg-primary: #e3f2fd;
+    --bg-card: #ffffff;
+    --bg-card-alt: #bbdefb;
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a5568;
+    --accent: #d4a017;
+    --accent-hover: #b8860b;
+    --accent-glow: rgba(212, 160, 23, 0.3);
+    --border: #90caf9;
+    --border-light: rgba(0, 0, 0, 0.08);
     
     /* Typography */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -34,8 +34,8 @@
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     
     /* Shadows */
-    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
-    --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.6);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-card-hover: 0 8px 40px rgba(0, 0, 0, 0.15);
     --glow-accent: 0 0 20px var(--accent-glow);
 }
 
@@ -72,12 +72,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--border);
+    background: #90caf9;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #444444;
+    background: #64b5f6;
 }
 
 a {
@@ -160,7 +160,7 @@ ul, ol {
     align-items: center;
     gap: 4px;
     padding: 8px 20px;
-    background: rgba(17, 17, 17, 0.8);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--border);
@@ -400,7 +400,7 @@ ul, ol {
 
 /* ----- About Section ----- */
 .about-section {
-    background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-card-alt) 100%);
+    background: linear-gradient(180deg, var(--bg-primary) 0%, #d0e8fc 100%);
 }
 
 .about-content {
@@ -527,13 +527,13 @@ ul, ol {
 
 .project-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), var(--glow-accent);
-    border-color: rgba(100, 181, 246, 0.3);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), var(--glow-accent);
+    border-color: rgba(212, 160, 23, 0.4);
 }
 
 .project-thumbnail {
     aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, #1e1e1e 0%, #2a2a2a 50%, #1e1e1e 100%);
+    background: linear-gradient(135deg, #cce5ff 0%, #e3f2fd 50%, #bbdefb 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -654,7 +654,7 @@ ul, ol {
 
 .footer-copyright {
     font-size: 0.8125rem;
-    color: #666666;
+    color: #7a8a9e;
 }
 
 /* ----- CV Page ----- */
@@ -872,7 +872,7 @@ ul, ol {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(100, 181, 246, 0.1);
+    background: rgba(212, 160, 23, 0.12);
     border-radius: 10px;
     color: var(--accent);
     flex-shrink: 0;
@@ -947,7 +947,7 @@ ul, ol {
 .project-category-badge {
     display: inline-block;
     padding: 6px 14px;
-    background: rgba(100, 181, 246, 0.15);
+    background: rgba(212, 160, 23, 0.15);
     color: var(--accent);
     font-size: 0.75rem;
     font-weight: 600;
@@ -1014,7 +1014,7 @@ ul, ol {
 .project-hero-image {
     width: 100%;
     aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    background: linear-gradient(135deg, #d0e8fc 0%, #e3f2fd 100%);
     border-radius: 16px;
     margin-bottom: 48px;
     display: flex;
@@ -1247,3 +1247,61 @@ ul, ol {
 .project-category.visible .project-card:nth-child(5) { transition-delay: 0.3s; }
 .project-category.visible .project-card:nth-child(6) { transition-delay: 0.35s; }
 
+/* ----- Teknofest Card Styles ----- */
+.teknofest-thumb {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 40%, #01579b 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.teknofest-thumb::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,215,0,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255,255,255,0.08) 0%, transparent 40%);
+    animation: teknofestGlow 6s ease-in-out infinite alternate;
+}
+
+@keyframes teknofestGlow {
+    0% { opacity: 0.5; transform: rotate(0deg); }
+    100% { opacity: 1; transform: rotate(5deg); }
+}
+
+.teknofest-icon {
+    font-size: 2.5rem;
+    z-index: 1;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+}
+
+.teknofest-badge {
+    z-index: 1;
+    padding: 4px 14px;
+    background: rgba(255, 215, 0, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.5);
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ffd700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.teknofest-card:hover {
+    border-color: rgba(255, 215, 0, 0.4) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 0 20px rgba(255, 215, 0, 0.2) !important;
+}
+
+.teknofest-line {
+    background: linear-gradient(90deg, #d4a017, transparent) !important;
+}

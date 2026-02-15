@@ -59,9 +59,9 @@ function initParticles() {
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             
             if (this.isAccent) {
-                ctx.fillStyle = `rgba(100, 181, 246, ${this.opacity * 1.5})`;
+                ctx.fillStyle = `rgba(218, 165, 32, ${this.opacity * 2})`;
             } else {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(184, 134, 11, ${this.opacity * 1.2})`;
             }
             
             ctx.fill();
@@ -98,9 +98,9 @@ function initParticles() {
             ctx.rotate(this.angle);
             
             const gradient = ctx.createLinearGradient(-this.length / 2, 0, this.length / 2, 0);
-            gradient.addColorStop(0, `rgba(255, 255, 255, 0)`);
-            gradient.addColorStop(0.5, `rgba(255, 255, 255, ${this.opacity})`);
-            gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+            gradient.addColorStop(0, `rgba(184, 134, 11, 0)`);
+            gradient.addColorStop(0.5, `rgba(218, 165, 32, ${this.opacity})`);
+            gradient.addColorStop(1, `rgba(184, 134, 11, 0)`);
             
             ctx.strokeStyle = gradient;
             ctx.lineWidth = 1;

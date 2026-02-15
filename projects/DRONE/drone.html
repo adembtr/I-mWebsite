@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TEKNOFEST 2026 - AI in Aviation Competition: Real-time Object Detection & Visual Odometry from Drone Footage">
+    <meta name="author" content="Adem">
+    <meta name="theme-color" content="#e3f2fd">
+    <title>AI in Aviation — Drone AI | Adem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="drone.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <a href="../../index.html#projects" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Projects
+        </a>
+        <div class="nav-pill">
+            <a href="../../cv.html">CV</a>
+            <span class="divider"></span>
+            <a href="../../contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg"><canvas id="hero-canvas"></canvas></div>
+        <div class="hero-content">
+            <span class="category-badge">TEKNOFEST 2026</span>
+            <h1 class="hero-title">AI in Aviation</h1>
+            <p class="hero-subtitle">Real-time Object Detection & Visual Odometry from Drone Footage</p>
+            <p class="hero-date">February 2026 — Ongoing</p>
+            <div class="hero-buttons">
+                <a href="https://www.teknofest.org/tr/yarismalar/havacilikta-yapay-zeka-yarismasi/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    Competition Page
+                </a>
+                <a href="#architecture" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    See Architecture
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section">
+        <h2 class="section-title reveal">What I'm Building</h2>
+        <div class="overview-content">
+            <div class="overview-text reveal">
+                <p>A complete <strong>AI-powered drone video analysis system</strong> for the TEKNOFEST 2026 AI in Aviation competition. The system processes drone camera footage in real-time to perform object detection, visual odometry (6-DOF pose estimation), and reference object recognition — all running on a local LAN with no internet.</p>
+                <p>The core challenge: detect <strong>vehicles, people, and special reference markers</strong> (UAP — turquoise circle, UAI — red crescent) from aerial footage while simultaneously tracking the drone's 3D position using only visual data. The system runs a <strong>parallel multiprocessing pipeline</strong> — YOLO on GPU, Visual Odometry and reference matching on CPU — to maximize throughput.</p>
+                <p>The competition takes place in a closed LAN environment. The system downloads video from a local server via Ethernet, processes it through three parallel AI modules, and returns structured JSON results with bounding boxes, 6-DOF position, and reference object coordinates — all within strict time limits.</p>
+            </div>
+            <div class="feature-cards reveal">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div><h4>Object Detection</h4><p>YOLOv8l with SAHI for small aerial objects</p></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <div><h4>Visual Odometry</h4><p>6-DOF position tracking (X,Y,Z + Yaw,Pitch,Roll)</p></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <div><h4>Reference Matching</h4><p>DINOv2 + HSV color segmentation</p></div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <div><h4>Parallel Pipeline</h4><p>Python multiprocessing — GPU + CPU</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture-section" id="architecture">
+        <div class="architecture-container">
+            <h2 class="section-title reveal">System Architecture</h2>
+
+            <!-- Main Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">Main Processing Pipeline</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🌐</div><div class="step-title">LAN Server</div><div class="step-tooltip"><h5>Video Download</h5><p>Download drone footage from local server via Ethernet. Closed LAN — no internet. TEKNOFEST provides server communication code blocks.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🎞️</div><div class="step-title">Decode Frames</div><div class="step-tooltip"><h5>Frame Extraction</h5><p>OpenCV VideoCapture decodes video. Frames dispatched to three parallel worker processes via shared queues.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box highlight-box"><div class="step-icon">🧠</div><div class="step-title">3 AI Modules</div><div class="step-tooltip"><h5>Parallel Processing</h5><p>Three modules run simultaneously: YOLO (GPU), Visual Odometry (CPU), Reference Matching (CPU). Results merged per-frame.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📊</div><div class="step-title">Merge Results</div><div class="step-tooltip"><h5>Result Aggregation</h5><p>Combine detections, 6-DOF position data, and reference object matches into structured JSON output per frame.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📤</div><div class="step-title">Submit JSON</div><div class="step-tooltip"><h5>Result Submission</h5><p>POST structured JSON: {frame_id, detections[], position{x,y,z}, reference_object{x,y,w,h}} to server.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detection Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">Module 1 — Object Detection (GPU)</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🖼️</div><div class="step-title">Frame</div><div class="step-tooltip"><h5>Input Frame</h5><p>Raw frame from drone camera. High resolution, objects appear very small due to altitude.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🔪</div><div class="step-title">SAHI Slice</div><div class="step-tooltip"><h5>Slicing Aided Inference</h5><p>Split frame into overlapping 640×640 tiles. Critical for detecting small objects from aerial perspective. 20% overlap ratio.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🎯</div><div class="step-title">YOLOv8l</div><div class="step-tooltip"><h5>Detection</h5><p>4 classes: Vehicle (0), Person (1), UAP turquoise circle (2), UAI red crescent (3). FP16 inference on GPU.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🔗</div><div class="step-title">NMS Merge</div><div class="step-tooltip"><h5>Non-Maximum Suppression</h5><p>Merge overlapping detections from tiles back to full-frame coordinates. Remove duplicate bounding boxes.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📦</div><div class="step-title">BBox Output</div><div class="step-tooltip"><h5>Results</h5><p>[class_id, x, y, w, h, confidence] per object. Passed to merge step.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VO Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">Module 2 — Visual Odometry (CPU)</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">👁️</div><div class="step-title">Features</div><div class="step-tooltip"><h5>Shi-Tomasi Corners</h5><p>goodFeaturesToTrack() finds up to 2000 strong corner features in grayscale frame.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🔄</div><div class="step-title">Optical Flow</div><div class="step-tooltip"><h5>Lucas-Kanade Tracking</h5><p>calcOpticalFlowPyrLK() tracks feature points between consecutive frames. Pyramidal approach for multi-scale.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📐</div><div class="step-title">Essential Mat</div><div class="step-tooltip"><h5>Geometric Estimation</h5><p>findEssentialMat() with RANSAC. Computes essential matrix and removes outlier feature matches simultaneously.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🧭</div><div class="step-title">Recover Pose</div><div class="step-tooltip"><h5>6-DOF Decomposition</h5><p>recoverPose() extracts R (rotation) and t (translation). Translation: X,Y,Z displacement. Rotation: Yaw, Pitch, Roll.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">📍</div><div class="step-title">Kalman Filter</div><div class="step-tooltip"><h5>Drift Correction</h5><p>Smooths cumulative position. Keyframe selection (every N-th frame) reduces error accumulation. Loop closure for known regions.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reference Pipeline -->
+            <div class="pipeline-wrapper reveal">
+                <div class="pipeline-label">Module 3 — Reference Object Matching (CPU)</div>
+                <div class="pipeline">
+                    <div class="pipeline-steps">
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🎨</div><div class="step-title">HSV Filter</div><div class="step-tooltip"><h5>Color Segmentation</h5><p>Convert to HSV color space. Apply masks for turquoise (UAP) and red (UAI) color ranges. Morphological cleanup.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🔲</div><div class="step-title">Contours</div><div class="step-tooltip"><h5>Shape Detection</h5><p>findContours() on binary masks. Filter by area, circularity, aspect ratio. Generates candidate bounding boxes.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">🦕</div><div class="step-title">DINOv2</div><div class="step-tooltip"><h5>Visual Similarity</h5><p>Self-supervised ViT features. Compare candidate crops against reference templates via cosine similarity. ONNX Runtime for CPU speed.</p></div></div></div>
+                        <div class="step-arrow"><div class="arrow-line"></div></div>
+                        <div class="pipeline-step"><div class="step-box"><div class="step-icon">✅</div><div class="step-title">Cross-Validate</div><div class="step-tooltip"><h5>Multi-Method Verification</h5><p>Only accept candidates confirmed by both HSV contour detection AND DINOv2 similarity AND YOLO detection (if available).</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section class="code-section">
+        <div class="code-container">
+            <h2 class="section-title reveal">Code Highlights</h2>
+            <div class="code-tabs reveal">
+                <button class="code-tab active" data-tab="code-yolo">YOLO + SAHI</button>
+                <button class="code-tab" data-tab="code-vo">Visual Odometry</button>
+                <button class="code-tab" data-tab="code-ref">Reference Matching</button>
+                <button class="code-tab" data-tab="code-multi">Multiprocessing</button>
+            </div>
+
+            <div class="code-block active" id="code-yolo">
+                <div class="code-header"><span class="code-filename">detection.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">from</span> ultralytics <span class="keyword">import</span> YOLO
+<span class="keyword">from</span> sahi <span class="keyword">import</span> AutoDetectionModel
+<span class="keyword">from</span> sahi.predict <span class="keyword">import</span> get_sliced_prediction
+
+<span class="comment"># Load custom-trained YOLOv8l for aerial detection</span>
+detection_model = AutoDetectionModel.<span class="function">from_pretrained</span>(
+    model_type=<span class="string">"yolov8"</span>,
+    model_path=<span class="string">"weights/drone_yolov8l.pt"</span>,
+    confidence_threshold=<span class="number">0.4</span>,
+    device=<span class="string">"cuda:0"</span>
+)
+
+<span class="comment"># Classes: 0=Vehicle, 1=Person, 2=UAP, 3=UAI</span>
+
+<span class="keyword">def</span> <span class="function">detect_objects</span>(frame):
+    <span class="string">"""Detect objects from drone frame with SAHI slicing."""</span>
+    result = <span class="function">get_sliced_prediction</span>(
+        image=frame,
+        detection_model=detection_model,
+        slice_height=<span class="number">640</span>,
+        slice_width=<span class="number">640</span>,
+        overlap_height_ratio=<span class="number">0.2</span>,
+        overlap_width_ratio=<span class="number">0.2</span>,
+    )
+
+    detections = []
+    <span class="keyword">for</span> pred <span class="keyword">in</span> result.object_prediction_list:
+        bbox = pred.bbox
+        detections.<span class="function">append</span>({
+            <span class="string">"class_id"</span>: pred.category.id,
+            <span class="string">"bbox"</span>: [bbox.minx, bbox.miny, bbox.maxx, bbox.maxy],
+            <span class="string">"confidence"</span>: pred.score.value
+        })
+    <span class="keyword">return</span> detections</code></pre></div>
+            </div>
+
+            <div class="code-block" id="code-vo">
+                <div class="code-header"><span class="code-filename">visual_odometry.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">import</span> cv2
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="keyword">class</span> <span class="function">VisualOdometry</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, K):
+        <span class="string">"""K = 3x3 camera intrinsic matrix."""</span>
+        self.K = K
+        self.pos = np.<span class="function">zeros</span>((<span class="number">3</span>, <span class="number">1</span>))
+        self.rot = np.<span class="function">eye</span>(<span class="number">3</span>)
+        self.prev = <span class="keyword">None</span>
+
+    <span class="keyword">def</span> <span class="function">process</span>(self, frame):
+        gray = cv2.<span class="function">cvtColor</span>(frame, cv2.COLOR_BGR2GRAY)
+        <span class="keyword">if</span> self.prev <span class="keyword">is None</span>:
+            self.prev = gray
+            <span class="keyword">return</span> self.<span class="function">_pose</span>()
+
+        <span class="comment"># 1. Detect features (Shi-Tomasi)</span>
+        p1 = cv2.<span class="function">goodFeaturesToTrack</span>(
+            self.prev, maxCorners=<span class="number">2000</span>,
+            qualityLevel=<span class="number">0.01</span>, minDistance=<span class="number">7</span>)
+
+        <span class="comment"># 2. Track via Optical Flow (Lucas-Kanade)</span>
+        p2, st, _ = cv2.<span class="function">calcOpticalFlowPyrLK</span>(
+            self.prev, gray, p1, <span class="keyword">None</span>)
+        g1, g2 = p1[st == <span class="number">1</span>], p2[st == <span class="number">1</span>]
+
+        <span class="comment"># 3. Essential Matrix + RANSAC outlier removal</span>
+        E, mask = cv2.<span class="function">findEssentialMat</span>(
+            g1, g2, self.K, method=cv2.RANSAC)
+
+        <span class="comment"># 4. Decompose into R (rotation) + t (translation)</span>
+        _, R, t, _ = cv2.<span class="function">recoverPose</span>(E, g1, g2, self.K)
+
+        <span class="comment"># 5. Cumulative pose update</span>
+        self.pos += self.rot @ t
+        self.rot = R @ self.rot
+        self.prev = gray
+        <span class="keyword">return</span> self.<span class="function">_pose</span>()</code></pre></div>
+            </div>
+
+            <div class="code-block" id="code-ref">
+                <div class="code-header"><span class="code-filename">reference_matching.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">import</span> cv2, numpy <span class="keyword">as</span> np
+
+<span class="comment"># HSV color ranges for reference markers</span>
+UAP_RANGE = (np.<span class="function">array</span>([<span class="number">80</span>,<span class="number">100</span>,<span class="number">100</span>]), np.<span class="function">array</span>([<span class="number">100</span>,<span class="number">255</span>,<span class="number">255</span>]))  <span class="comment"># Turquoise</span>
+UAI_LO = (np.<span class="function">array</span>([<span class="number">0</span>,<span class="number">120</span>,<span class="number">100</span>]), np.<span class="function">array</span>([<span class="number">10</span>,<span class="number">255</span>,<span class="number">255</span>]))   <span class="comment"># Red low</span>
+UAI_HI = (np.<span class="function">array</span>([<span class="number">170</span>,<span class="number">120</span>,<span class="number">100</span>]), np.<span class="function">array</span>([<span class="number">180</span>,<span class="number">255</span>,<span class="number">255</span>])) <span class="comment"># Red high</span>
+
+<span class="keyword">def</span> <span class="function">find_reference</span>(frame, yolo_dets):
+    <span class="string">"""HSV segmentation + DINOv2 verification."""</span>
+    hsv = cv2.<span class="function">cvtColor</span>(frame, cv2.COLOR_BGR2HSV)
+
+    <span class="comment"># Step 1: Color mask for turquoise (UAP)</span>
+    mask = cv2.<span class="function">inRange</span>(hsv, *UAP_RANGE)
+
+    <span class="comment"># Step 2: Morphological cleanup</span>
+    kern = cv2.<span class="function">getStructuringElement</span>(cv2.MORPH_ELLIPSE, (<span class="number">5</span>,<span class="number">5</span>))
+    mask = cv2.<span class="function">morphologyEx</span>(mask, cv2.MORPH_CLOSE, kern)
+
+    <span class="comment"># Step 3: Find contours → candidate bboxes</span>
+    cnts, _ = cv2.<span class="function">findContours</span>(
+        mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    <span class="comment"># Step 4: DINOv2 similarity check (ONNX)</span>
+    candidates = <span class="function">filter_by_area</span>(cnts, min_area=<span class="number">100</span>)
+    verified = <span class="function">dino_verify</span>(frame, candidates, threshold=<span class="number">0.7</span>)
+
+    <span class="comment"># Step 5: Cross-validate with YOLO class_id=2</span>
+    <span class="keyword">return</span> <span class="function">cross_validate</span>(verified, yolo_dets, cls=<span class="number">2</span>)</code></pre></div>
+            </div>
+
+            <div class="code-block" id="code-multi">
+                <div class="code-header"><span class="code-filename">pipeline.py</span><button class="copy-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</button></div>
+                <div class="code-content"><pre><code><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Queue
+<span class="keyword">import</span> requests
+
+<span class="keyword">def</span> <span class="function">yolo_worker</span>(q_in, q_out):
+    <span class="string">"""GPU — YOLOv8 + SAHI detection."""</span>
+    model = <span class="function">load_model</span>(<span class="string">"cuda:0"</span>)
+    <span class="keyword">while True</span>:
+        fid, frame = q_in.<span class="function">get</span>()
+        dets = <span class="function">detect_objects</span>(model, frame)
+        q_out.<span class="function">put</span>((<span class="string">"yolo"</span>, fid, dets))
+
+<span class="keyword">def</span> <span class="function">vo_worker</span>(q_in, q_out, K):
+    <span class="string">"""CPU — Visual Odometry."""</span>
+    vo = <span class="function">VisualOdometry</span>(K)
+    <span class="keyword">while True</span>:
+        fid, frame = q_in.<span class="function">get</span>()
+        pose = vo.<span class="function">process</span>(frame)
+        q_out.<span class="function">put</span>((<span class="string">"vo"</span>, fid, pose))
+
+<span class="keyword">def</span> <span class="function">ref_worker</span>(q_in, q_out):
+    <span class="string">"""CPU — Reference object matching."""</span>
+    <span class="keyword">while True</span>:
+        fid, frame = q_in.<span class="function">get</span>()
+        refs = <span class="function">find_reference</span>(frame)
+        q_out.<span class="function">put</span>((<span class="string">"ref"</span>, fid, refs))
+
+<span class="comment"># Download video from LAN server</span>
+video = requests.<span class="function">get</span>(<span class="string">"http://192.168.1.100:8080/video"</span>)
+
+<span class="comment"># Launch 3 parallel workers</span>
+workers = [
+    Process(target=yolo_worker, args=(q1, res)),
+    Process(target=vo_worker, args=(q2, res, K)),
+    Process(target=ref_worker, args=(q3, res)),
+]
+<span class="keyword">for</span> w <span class="keyword">in</span> workers: w.<span class="function">start</span>()
+
+<span class="comment"># Submit merged results to server</span>
+requests.<span class="function">post</span>(<span class="string">"http://192.168.1.100:8080/submit"</span>, json=result)</code></pre></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I Learned -->
+    <section class="learned-section">
+        <div class="learned-container">
+            <h2 class="section-title reveal">What I'm Learning</h2>
+            <div class="learned-grid">
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>YOLOv8 Object Detection</h4></div><ul><li>Custom training with VisDrone + DOTA aerial datasets</li><li>SAHI slicing for tiny objects from high altitude</li><li>FP16 inference optimization on GPU</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Visual Odometry</h4></div><ul><li>Essential Matrix estimation with RANSAC</li><li>6-DOF pose decomposition (translation + rotation)</li><li>Kalman filter & keyframe selection for drift control</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Computer Vision</h4></div><ul><li>HSV color segmentation for marker detection</li><li>Morphological operations (erosion, dilation, closing)</li><li>Lucas-Kanade pyramidal optical flow</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>DINOv2 Self-Supervised</h4></div><ul><li>Visual similarity matching without labels</li><li>PyTorch → ONNX Runtime conversion for CPU</li><li>Feature extraction for reference template matching</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Parallel Processing</h4></div><ul><li>Python multiprocessing with shared queues</li><li>GPU/CPU workload distribution strategy</li><li>Real-time pipeline orchestration per-frame</li></ul></div>
+                <div class="learned-card"><div class="learned-card-header"><span class="learned-check">✓</span><h4>Synthetic Data Generation</h4></div><ul><li>Generating UAP/UAI markers with augmentation</li><li>Variable lighting, angles, backgrounds</li><li>Pre-training → fine-tuning with real competition data</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="tech-section">
+        <div class="tech-container">
+            <h2 class="section-title reveal" style="justify-content: center;">Tech Stack</h2>
+            <div class="tech-grid reveal">
+                <div class="tech-badge"><span class="tech-badge-icon">🐍</span><span class="tech-badge-name">Python 3.10+</span><span class="tech-badge-tooltip">Core language</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🎯</span><span class="tech-badge-name">YOLOv8</span><span class="tech-badge-tooltip">Object detection model</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">👁️</span><span class="tech-badge-name">OpenCV</span><span class="tech-badge-tooltip">Visual odometry & image processing</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🦕</span><span class="tech-badge-name">DINOv2</span><span class="tech-badge-tooltip">Self-supervised visual features</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🔪</span><span class="tech-badge-name">SAHI</span><span class="tech-badge-tooltip">Slicing Aided Hyper Inference</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">⚡</span><span class="tech-badge-name">ONNX Runtime</span><span class="tech-badge-tooltip">Optimized CPU inference</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🔢</span><span class="tech-badge-name">NumPy</span><span class="tech-badge-tooltip">Matrix operations & linear algebra</span></div>
+                <div class="tech-badge"><span class="tech-badge-icon">🧵</span><span class="tech-badge-name">Multiprocessing</span><span class="tech-badge-tooltip">Parallel GPU + CPU pipeline</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid reveal">
+                <div class="stat-card"><div class="stat-number" data-value="4">0</div><div class="stat-label">Detection Classes</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="640">0</div><div class="stat-label">SAHI Tile Size (px)</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="6">0</div><div class="stat-label">DOF Pose Tracking</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="3">0</div><div class="stat-label">Parallel AI Modules</div></div>
+                <div class="stat-card"><div class="stat-number" data-value="2000">0</div><div class="stat-label">Features / Frame</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="project-footer">
+        <nav class="footer-nav">
+            <a href="../../index.html#projects" class="footer-nav-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>All Projects</a>
+            <a href="../5G/5g.html" class="footer-nav-link">5G Road Safety →<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </nav>
+    </footer>
+
+    <script src="drone.js"></script>
+</body>
+</html>
